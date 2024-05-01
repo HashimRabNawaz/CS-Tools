@@ -52,28 +52,18 @@ svn.fit(X_train, y_train)
 # Predict from the test dataset
 predictions = svn.predict(X_test)
 
-# Add random noise to the input data
-np.random.seed(42)  # for reproducibility
-noise_factor = 0.5  # adjust the noise level as needed
-
-X_noisy = X + np.random.normal(scale=noise_factor, size=X.shape)
-
-# Split the noisy data to train and test dataset
-X_train_noisy, X_test_noisy, y_train_noisy, y_test_noisy = train_test_split(X_noisy, Y, test_size=0.2)
-
-# Support vector machine algorithm with noisy data
-svn_noisy = SVC()
-svn_noisy.fit(X_train_noisy, y_train_noisy)
-
-# Predict from the test dataset with noisy data
-predictions_noisy = svn_noisy.predict(X_test_noisy)
-
+# Calculate the accuracy
 from sklearn.metrics import accuracy_score
-# Calculate the accuracy with noisy data
-accuracy_noisy = accuracy_score(y_test_noisy, predictions_noisy)
-print("Accuracy with noisy data:", accuracy_noisy)
+accuracy_score(y_test, predictions)
 
+# A detailed classification report
+from sklearn.metrics import classification_report
+print(classification_report(y_test, predictions))
 
+X_new = np.array([[3, 2, 1, 0.2], [  4.9, 2.2, 3.8, 1.1 ], [  5.3, 2.5, 4.6, 1.9 ]])
+#Prediction of the species from the input vector
+prediction = svn.predict(X_new)
+print("Prediction of Species: {}".format(prediction))
 
 # Save the model
 import pickle
@@ -84,4 +74,4 @@ with open('SVM.pickle', 'wb') as f:
 with open('SVM.pickle', 'rb') as f:
     model = pickle.load(f)
 
-#model.predict(X_new)
+model.predict(X_new)
